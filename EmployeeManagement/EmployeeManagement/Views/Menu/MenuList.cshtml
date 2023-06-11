@@ -1,0 +1,77 @@
+﻿@model IEnumerable<EmployeeManagement.Models.Administration.DynamicMenu.MenuItem>
+
+@{
+    ViewBag.Title = "All Menu";
+}
+
+@if (Model.Any())
+{
+
+
+    <div class="card mb-3">
+        <div class="card-header">
+            <h1>All Menu List</h1>
+        </div>
+    </div>
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead class="table-light">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">ParentId</th>
+                    <th scope="col">Icon</th>
+                    <th scope="col">Url</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var menuItem in Model)
+                {
+                    <tr>
+                        <td>@menuItem.Id</td>
+                        <td>@menuItem.Title</td>
+                        <td>@menuItem.Description</td>
+                        <td>@menuItem.ParentId</td>
+                        <td>@menuItem.Icon</td>
+                        <td>@menuItem.Url</td>
+                        <td>
+                            <form asp-action="DeleteUser" asp-route-Id="@menuItem.Id" method="post">
+                                <a asp-action="EditMenu" asp-controller="Menu" asp-route-Id="@menuItem.Id" class="btn btn-primary">Edit</a>
+                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you  want to delete user : @menuItem.Title')">Delete</button>
+                                @*Client side Delete Confirmatioin like browser lavel confirmation*@
+
+                                @*<span id="confirmDeleteSpan_@menuItem.Id" style="display:none">
+                                    <span>Are you sure you want to delete?</span>
+                                    <button type="submit" class="btn btn-danger">Yes</button>
+                                    <a href="#" class="btn btn-primary" onclick="confirmDelete('@menuItem.Id', false)">No</a>
+                                </span>
+                                <span id="DeleteSpan_@menuItem.Id">
+                                    <a href="#" class="btn btn-danger" onclick="confirmDelete('@menuItem.Id', true)">Delete</a>
+                                </span>*@
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer">
+        <a asp-action="AddMenu" asp-controller="Menu" asp-route-Id="" class="btn btn-primary" style="width:auto">Add New Menu</a>
+    </div>
+
+}
+else
+{
+    <div class="card">
+        <div class="card-header">No Menu Created Yet</div>
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">Use the button below to create a New Menu</h5>
+        <a class="btn btn-primary" style="width:auto" asp-controller="Menu" asp-action="AddMenu">Add New Menu</a>
+    </div>
+}
+@section scripts{
+    <script src="~/js/CustomScript.js"></script>
+}
